@@ -195,9 +195,9 @@ var htmlString = () => `<div id="whatsapp-widget-app">
   <div id="whatsapp-widget" style="display: none">
     <div id="whatsapp-header">
       <div id="whatsapp-header-content">
-        <img src="${window.whatsappSettings.logoUrl}" alt="${window.whatsappSettings.companyName}" />
+        <img src="${settings.logoUrl}" alt="${settings.companyName}" />
         <div id="whatsapp-header-column">
-          <h3>${window.whatsappSettings.companyName}</h3>
+          <h3>${settings.companyName}</h3>
           <p>online</p>
         </div>
       </div>
@@ -220,7 +220,7 @@ var htmlString = () => `<div id="whatsapp-widget-app">
     </div>
     <div id="whatsapp-body">
       <div id="whatsapp-system-message">
-        <p>${window.whatsappSettings.text}</p>
+        <p>${settings.text}</p>
       </div>
       <form id="whatsapp-form">
         <input
@@ -259,18 +259,9 @@ function injectStyles(css) {
   document.head.appendChild(style);
 }
 
-// Função para injetar o HTML na página
-function injectHtml(html) {
-  var div = document.createElement("div");
-  div.innerHTML = html;
-  document.body.appendChild(div.firstChild);
-}
-
-function setup() {
+function setupWhatsappWidget(settings) {
   injectStyles(cssString);
-
-  injectHtml(htmlString());
-
+  document.write(htmlString(settings));
   document.addEventListener("DOMContentLoaded", function () {
     var overlay = document.getElementById("whatsapp-widget-overlay");
     var widgetButton = document.getElementById("whatsapp-widget-button");
@@ -278,7 +269,6 @@ function setup() {
     var form = document.getElementById("whatsapp-form");
     var popup = document.getElementById("whatsapp-widget");
 
-    // Função para alternar a exibição do popup
     function togglePopup() {
       var isDisplayed = popup.style.display !== "none";
       overlay.style.display = isDisplayed ? "none" : "block";
@@ -286,11 +276,9 @@ function setup() {
       widgetButton.setAttribute("data-open", !isDisplayed);
     }
 
-    // Eventos de clique para o botão de abertura e fechamento do popup
     widgetButton.addEventListener("click", togglePopup);
     closeButton.addEventListener("click", togglePopup);
 
-    // Evento de envio do formulário
     form.addEventListener("submit", function (event) {
       event.preventDefault();
       var formValues = {
@@ -299,22 +287,13 @@ function setup() {
         phone: document.getElementById("phone").value,
       };
 
-      window.whatsappSettingsonSubmit(formValues); // Chamada da função personalizada no envio do formulário
+      settings.onSubmit(formValues);
 
-      var message = encodeURIComponent(window.whatsappSettingsmessage);
       window.open(
-        `https://wa.me/${window.whatsappSettingsphoneNumber}?text=${message}`,
+        `https://wa.me/${settings.phoneNumber}?text=${settings.message}`,
         "_blank"
       );
       togglePopup();
     });
   });
 }
-
-setup();
-
-// if (window.whatsappSettingsettings) {
-//   setup();
-// } else {
-//   console.log("No settings loaded", { settings: window.whatsappSettings });
-// }
