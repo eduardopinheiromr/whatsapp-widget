@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- <script defer src="/script.js" /> -->
+  </head>
+  <style>
+    body,
+    html {
+      margin: 0;
+      min-height: 200vh;
+    }
+    @keyframes shake {
+      0% {
+        transform: translate(1px, 1px) rotate(0deg);
+      }
+      2% {
+        transform: translate(-1px, -2px) rotate(-1deg);
+      }
+      4% {
+        transform: translate(-3px, 0px) rotate(1deg);
+      }
+      6% {
+        transform: translate(3px, 2px) rotate(0deg);
+      }
+      8% {
+        transform: translate(1px, -1px) rotate(1deg);
+      }
+      10% {
+        transform: translate(-1px, 2px) rotate(-1deg);
+      }
+      12% {
+        transform: translate(-3px, 1px) rotate(0deg);
+      }
+      14% {
+        transform: translate(3px, 1px) rotate(-1deg);
+      }
+      16% {
+        transform: translate(1px, 2px) rotate(0deg);
+      }
+      18% {
+        transform: translate(0px, 0px) rotate(0deg);
+      }
+    }
+    #whatsapp-widget-app {
+      overflow: hidden;
+      max-width: 100vw;
+      max-height: 100vh;
+    }
+    #whatsapp-widget-overlay {
+      position: absolute;
+      position: fixed;
+      z-index: 9999;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    #whatsapp-widget-button {
+      animation: shake 5s infinite;
+      animation-delay: 3s;
+      height: 50px;
+      width: 50px;
+      border: none;
+      cursor: pointer;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      border-radius: 5px;
+      transition: 0.3s;
+      background: transparent
+        url(https://d335luupugsy2.cloudfront.net/cms/files/1446/1588875979/$5u0ndp8vgxo)
+        center center no-repeat;
+    }
+    #whatsapp-widget-button:hover,
+    #whatsapp-widget-button[data-open="true"] {
+      animation: none;
+    }
+
+    #whatsapp-widget {
+      box-sizing: border-box;
+      font-family: "Roboto", sans-serif;
+      position: fixed;
+      bottom: 80px;
+      right: 25px;
+      width: 400px;
+      z-index: 99999;
+      background: #fff;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    #whatsapp-header {
+      background: #1c6156;
+      color: #fff;
+      padding: 10px;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    #whatsapp-header-close-button {
+      border: none;
+      cursor: pointer;
+      background: transparent;
+    }
+
+    #whatsapp-header-close-button {
+      height: 25px;
+      width: 25px;
+      fill: #fff;
+    }
+
+    #whatsapp-header-content {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      height: 60x;
+    }
+    #whatsapp-header-content h3,
+    p {
+      margin-block-start: 0px !important;
+      margin-block-end: 0px !important;
+    }
+
+    #whatsapp-header img {
+      width: 50px;
+      height: 50px;
+      margin-right: 10px;
+    }
+
+    #whatsapp-body {
+      background: url(https://d335luupugsy2.cloudfront.net/cms/files/18740/1595939276/$ubt4h4q1mvh),
+        linear-gradient(
+          to bottom,
+          rgba(233, 224, 215, 1) 0%,
+          rgba(233, 224, 215, 1) 100%
+        );
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 16px;
+    }
+
+    #whatsapp-system-message {
+      padding: 12px;
+      background: #f5f5f5;
+      border-radius: 5px;
+      font-size: 15px;
+      max-width: 280px;
+    }
+
+    #whatsapp-form {
+      margin-left: auto;
+      box-sizing: border-box;
+      width: fit-content;
+      min-width: 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
+    #whatsapp-form input,
+    #whatsapp-form button {
+      border: none;
+      /* width: 200px; */
+      width: 100%;
+      border-radius: 4px;
+      padding: 10px;
+    }
+    #whatsapp-form button {
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 8px;
+      background: #1c6156;
+      color: #fff;
+      font-weight: bold;
+      width: 70%;
+      transition: 0.3s;
+    }
+
+    #whatsapp-form button:hover {
+      background: #113d36;
+    }
+
+    @media (max-width: 600px) {
+      #whatsapp-widget {
+        width: 100%;
+        bottom: 80px;
+        left: 0;
+        right: 0;
+        border-radius: 0;
+      }
+    }
+  </style>
+  <body>
+    <div id="whatsapp-widget-app">
+      <div id="whatsapp-widget-overlay" style="display: block"></div>
+      <button id="whatsapp-widget-button" data-open="true"></button>
+      <div id="whatsapp-widget" style="display: block">
+        <div id="whatsapp-header">
+          <div id="whatsapp-header-content">
+            <img src="settings.logo" alt="Logo" />
+            <div id="whatsapp-header-column">
+              <h3>${settings.companyName}</h3>
+              <p>online</p>
+            </div>
+          </div>
+          <button id="whatsapp-header-close-button">
+            <svg
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 348.333 348.334"
+            >
+              <title>Fechar</title>
+              <path
+                d="M336.559,68.611L231.016,174.165l105.543,105.549c15.699,15.705,15.699,41.145,0,56.85
+                c-7.844,7.844-18.128,11.769-28.407,11.769c-10.296,0-20.581-3.919-28.419-11.769L174.167,231.003L68.609,336.563
+                c-7.843,7.844-18.128,11.769-28.416,11.769c-10.285,0-20.563-3.919-28.413-11.769c-15.699-15.698-15.699-41.139,0-56.85
+                l105.54-105.549L11.774,68.611c-15.699-15.699-15.699-41.145,0-56.844c15.696-15.687,41.127-15.687,56.829,0l105.563,105.554
+                L279.721,11.767c15.705-15.687,41.139-15.687,56.832,0C352.258,27.466,352.258,52.912,336.559,68.611z"
+              ></path>
+            </svg>
+          </button>
+        </div>
+        <div id="whatsapp-body">
+          <div id="whatsapp-system-message">
+            <p>${settings.text}</p>
+          </div>
+          <form id="whatsapp-form">
+            <input
+              value="edu"
+              type="text"
+              id="name"
+              placeholder="Nome *"
+              required
+            />
+            <input
+              value="edu@gmail.com"
+              type="email"
+              id="email"
+              placeholder="Email *"
+              required
+            />
+            <input
+              value="22997622896"
+              type="tel"
+              id="phone"
+              minlength="11"
+              placeholder="11999999999"
+              required
+            />
+            <button type="submit">Enviar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const overlay = document.getElementById("whatsapp-widget-overlay");
+      const widgetButton = document.getElementById("whatsapp-widget-button");
+      const closeButton = document.getElementById(
+        "whatsapp-header-close-button"
+      );
+      const form = document.getElementById("whatsapp-form");
+      const popup = document.getElementById("whatsapp-widget");
+
+      const name = document.getElementById("name");
+      const email = document.getElementById("email");
+      const phone = document.getElementById("phone");
+
+      function togglePopup() {
+        // Verifica se o popup está aberto
+        if (popup.style.display === "none") {
+          // Abre o popup
+          overlay.style.display = "block";
+          widgetButton.dataset.open = true;
+          popup.style.display = "block";
+        } else {
+          // Fecha o popup
+          overlay.style.display = "none";
+          widgetButton.dataset.open = false;
+          popup.style.display = "none";
+        }
+      }
+
+      widgetButton.onclick = function () {
+        togglePopup();
+      };
+
+      closeButton.onclick = function () {
+        togglePopup();
+      };
+
+      // dont allow phone to be letters, only numbers
+      phone.onkeyup = event => {
+        // validate if has more than 11
+        const value = event.target.value;
+        const onlyNumbers = value.replace(/\D/g, "");
+        if (onlyNumbers.length > 11) {
+          phone.value = onlyNumbers.slice(0, 11);
+          return;
+        }
+        phone.value = onlyNumbers;
+      };
+
+      form.onsubmit = async function (event) {
+        event.preventDefault();
+
+        var message = encodeURIComponent(
+          settings.message
+          //   `Olá, meu nome é ${name.value}. Meu email é ${email.value}, e meu telefone é ${phone.value}.`
+        );
+
+        name.value = "";
+        email.value = "";
+        phone.value = "";
+
+        if (settings.onSubmit) {
+          settings.onSubmit({
+            name: name.value,
+            email: email.value,
+            phone: phone.value,
+          });
+        }
+
+        togglePopup();
+        window.open(
+          `https://wa.me/${settings.phoneNumber}?text=${message}`,
+          "_blank"
+        );
+      };
+
+      var settings = {
+        companyName: "IZA Seguradora", // Personalize o nome da empresa aqui
+        phoneNumber: "+5511999999999", // Personalize o número de WhatsApp aqui
+        text: "Olá, tem dúvidas sobre o Seguro da IZA? É só me informar alguns dados para iniciarmos uma conversa sem compromisso.", // Personalize o texto inicial aqui
+        logoUrl:
+          "https://d335luupugsy2.cloudfront.net/cms/files/297831/1625769220/$tiq9q1k33", // URL da logo da empresa
+        message: "Olá, gostaria de saber mais sobre o seguro da IZA!",
+        onSubmit: async formValues => {},
+      };
+    </script>
+  </body>
+</html>
