@@ -189,15 +189,15 @@ var cssString = `
     }
   }`;
 
-var htmlString = settings => `<div id="whatsapp-widget-app">
+var htmlString = () => `<div id="whatsapp-widget-app">
   <div id="whatsapp-widget-overlay" style="display: none"></div>
   <button id="whatsapp-widget-button" data-open="false"></button>
   <div id="whatsapp-widget" style="display: none">
     <div id="whatsapp-header">
       <div id="whatsapp-header-content">
-        <img src="${settings.logoUrl}" alt="${settings.companyName}" />
+        <img src="${window.whatsappSettings.logoUrl}" alt="${window.whatsappSettings.companyName}" />
         <div id="whatsapp-header-column">
-          <h3>${settings.companyName}</h3>
+          <h3>${window.whatsappSettings.companyName}</h3>
           <p>online</p>
         </div>
       </div>
@@ -220,7 +220,7 @@ var htmlString = settings => `<div id="whatsapp-widget-app">
     </div>
     <div id="whatsapp-body">
       <div id="whatsapp-system-message">
-        <p>${settings.text}</p>
+        <p>${window.whatsappSettings.text}</p>
       </div>
       <form id="whatsapp-form">
         <input
@@ -269,7 +269,7 @@ function injectHtml(html) {
 function setup() {
   injectStyles(cssString);
 
-  injectHtml(htmlString(settings));
+  injectHtml(htmlString());
 
   document.addEventListener("DOMContentLoaded", function () {
     var overlay = document.getElementById("whatsapp-widget-overlay");
@@ -299,11 +299,11 @@ function setup() {
         phone: document.getElementById("phone").value,
       };
 
-      settings.onSubmit(formValues); // Chamada da função personalizada no envio do formulário
+      window.whatsappSettingsonSubmit(formValues); // Chamada da função personalizada no envio do formulário
 
-      var message = encodeURIComponent(settings.message);
+      var message = encodeURIComponent(window.whatsappSettingsmessage);
       window.open(
-        `https://wa.me/${settings.phoneNumber}?text=${message}`,
+        `https://wa.me/${window.whatsappSettingsphoneNumber}?text=${message}`,
         "_blank"
       );
       togglePopup();
@@ -311,8 +311,8 @@ function setup() {
   });
 }
 
-if (settings) {
+if (window.whatsappSettingsettings) {
   setup();
 } else {
-  console.log("No settings loaded", { settings });
+  console.log("No settings loaded", { settings: window.whatsappSettings });
 }
