@@ -311,8 +311,10 @@ function setup() {
   });
 }
 
-if (window.whatsappSettingsettings) {
-  setup();
-} else {
-  console.log("No settings loaded", { settings: window.whatsappSettings });
-}
+setup();
+
+// if (window.whatsappSettingsettings) {
+//   setup();
+// } else {
+//   console.log("No settings loaded", { settings: window.whatsappSettings });
+// }
