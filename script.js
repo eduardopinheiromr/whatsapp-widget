@@ -260,9 +260,12 @@ function injectStyles(css) {
 }
 
 function setupWhatsappWidget(settings) {
-  injectStyles(cssString);
-  document.write(htmlString(settings));
   document.addEventListener("DOMContentLoaded", function () {
+    injectStyles(cssString);
+    const div = document.createElement("div");
+    div.innerHTML = htmlString();
+    document.body.appendChild(div);
+
     var overlay = document.getElementById("whatsapp-widget-overlay");
     var widgetButton = document.getElementById("whatsapp-widget-button");
     var closeButton = document.getElementById("whatsapp-header-close-button");
