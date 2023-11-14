@@ -313,4 +313,6 @@ function setup() {
 
 if (settings) {
   setup();
+} else {
+  console.log("No settings loaded", { settings });
 }
